@@ -7,10 +7,12 @@ module.exports = function (api) {
       [
         "module:react-native-dotenv",
         {
-          "moduleName": "dotenv",
-          "path": ".env",
-          "safe": false,
-          "allowUndefined": true
+          moduleName: '@env',
+          path: '.env',
+          blacklist: null,
+          whitelist: null,
+          safe: false,
+          allowUndefined: true
         }
       ],
       [
@@ -24,7 +26,8 @@ module.exports = function (api) {
             "@Assets": "./src/assets",
             "@Containers": "./src/containers",
             "@Styles": "./src/styles",
-            "@Screens": "./src/screens"
+            "@Screens": "./src/screens",
+            "@Hooks": "./src/hooks"
           }
         }
       ]

@@ -29,8 +29,15 @@
             "@Screens/*": [
                 "src/screens/*",
                 "src/screens"
+            ],
+            "@Styles/*": [
+                "src/styles/*",
+                "src/styles"
+            ],
+            "@Hooks/*": [
+                "src/hooks/*",
+                "src/hooks"
             ]
-            // "@Styles/*": ["src/styles", "src/styles"],
         }
     },
     "exclude": [
