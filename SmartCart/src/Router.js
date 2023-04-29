@@ -2,7 +2,7 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import {HomeScreen, CartScreen, PaymentScreen, SignInScreen, SignUpScreen} from "./screens"
+import { HomeScreen, CartScreen, PaymentScreen, SignInScreen, SignUpScreen } from "./screens"
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -17,20 +17,20 @@ const Tab = createBottomTabNavigator();
 
 //     </Stack.Navigator>
 //     )
-  
+
 // }
 
 const HomeStack = () => {
-    return (<Tab.Navigator initialRouteName="Home">
-    <Tab.Screen name="Home" component={HomeScreen} options={{ header: () => null }}/>
-    <Tab.Screen name="Cart" component={CartScreen} options={{ header: () => null }}/>
+  return (<Tab.Navigator initialRouteName="Home">
+    <Tab.Screen name="Home" component={HomeScreen} options={{ header: () => null }} />
+    <Tab.Screen name="Cart" component={CartScreen} options={{ header: () => null }} />
 
-    </Tab.Navigator>)
-    
+  </Tab.Navigator>)
+
 }
 
 function Router() {
-    return(
+  return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="SignIn"
         screenOptions={{
@@ -41,7 +41,7 @@ function Router() {
           component={SignInScreen}
           options={{ gestureEnabled: false }} />
 
-          <Stack.Screen
+        <Stack.Screen
           name="SignUp"
           component={SignUpScreen}
           options={{ gestureEnabled: false }} />
@@ -58,7 +58,7 @@ function Router() {
         />
       </Stack.Navigator>
     </NavigationContainer>
-    )
+  )
 }
 
 
