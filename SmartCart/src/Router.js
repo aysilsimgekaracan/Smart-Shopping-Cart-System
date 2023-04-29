@@ -34,7 +34,7 @@ function Router() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="SignIn"
         screenOptions={{
-          header: () => null,
+          header: () => null
         }}>
         <Stack.Screen
           name="SignIn"

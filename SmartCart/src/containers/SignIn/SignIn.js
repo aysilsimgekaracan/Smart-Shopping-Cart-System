@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native'
 import styles from "./style"
 
 export function SignInContainer() {
@@ -6,5 +6,5 @@ export function SignInContainer() {
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>This is the sign-in page</Text>
     </View>
-  );
+  )
 }

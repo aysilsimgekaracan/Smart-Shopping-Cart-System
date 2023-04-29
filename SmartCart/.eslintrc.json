@@ -9,8 +9,7 @@
         "plugin:react/recommended",
         "plugin:react/jsx-runtime"
     ],
-    "overrides": [
-    ],
+    "overrides": [],
     "parserOptions": {
         "ecmaVersion": "latest",
         "sourceType": "module",
@@ -19,7 +18,6 @@
         }
     },
     "plugins": [
-        "react",
         "react-native"
     ],
     "rules": {
@@ -29,7 +27,10 @@
         "react/no-direct-mutation-state": 2,
         "react/jsx-uses-vars": 2,
         "no-undef": 2,
-        "semi": [2, "never"],
+        "semi": [
+            2,
+            "never"
+        ],
         "keyword-spacing": 2,
         "no-unneeded-ternary": 2,
         "no-whitespace-before-property": 2,
@@ -37,21 +38,36 @@
         "comma-dangle": 2,
         "comma-style": 2,
         "comma-spacing": 2,
-        "implicit-arrow-linebreak": [2, "beside"],
+        "implicit-arrow-linebreak": [
+            2,
+            "beside"
+        ],
         "no-multiple-empty-lines": 2,
         "no-irregular-whitespace": 2,
         "react/jsx-no-duplicate-props": 2,
         "no-useless-concat": 2,
-        "array-bracket-newline": [2, { "multiline": true, "minItems": null }],
+        "array-bracket-newline": [
+            2,
+            {
+                "multiline": true,
+                "minItems": null
+            }
+        ],
         "array-bracket-spacing": 2,
         "block-spacing": 2,
         "computed-property-spacing": 2,
         "func-call-spacing": 2,
-        "brace-style": [2, "1tbs", { "allowSingleLine": true }],
+        "brace-style": [
+            2,
+            "1tbs",
+            {
+                "allowSingleLine": true
+            }
+        ],
         "arrow-spacing": 2,
         "no-duplicate-imports": 2,
         "no-var": 2,
         "object-shorthand": 2,
         "prefer-template": 2
-      }
+    }
 }
