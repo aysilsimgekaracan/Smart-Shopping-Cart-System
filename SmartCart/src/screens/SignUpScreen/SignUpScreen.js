@@ -17,8 +17,8 @@ export function SignUpScreen() {
                 // Signed in 
                 setError(null)
                 const user = userCredential.user
-                console.log(user)
-                navigation.navigate("HomeStack")
+                // console.log(user)
+                navigation.navigate("HomeStack", { user })
             })
             .catch((error) => {
                 // const errorCode = error.code

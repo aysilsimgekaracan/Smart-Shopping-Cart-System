@@ -16,8 +16,8 @@ export function SignInScreen() {
             .then((userCredential) => {
                 // Signed in 
                 setError(null)
-                const user = userCredential.user
-                console.log(user)
+                // const user = userCredential.user
+                // console.log(user)
                 navigation.navigate("HomeStack")
             })
             .catch((error) => {
