@@ -11,6 +11,7 @@ export function SignInContainer({ error, setEmail, setPassword, navigateToSignUp
       <Text variant='h3' style={styles.headerText} >Sign In</Text>
       <View style={styles.contentContainer}>
         <Foundation name="shopping-cart" size={150} color="black" />
+        <Text variant='h3' style={styles.appText} >Smart Shopping Cart</Text>
         <Stack m={4} spacing={10}>
           <TextInput
             label="Email"

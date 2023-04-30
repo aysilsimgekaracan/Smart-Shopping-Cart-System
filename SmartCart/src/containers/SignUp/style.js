@@ -13,6 +13,10 @@ export default StyleSheet.create({
         justifyContent: "center",
         alignItems: "center"
     },
+    appText: {
+        fontFamily: "robotoMedium",
+        textAlign: 'center'
+    },
     textInput: {
         width: StyleVariables.width * 0.9,
         fontFamily: "robotoRegular"
