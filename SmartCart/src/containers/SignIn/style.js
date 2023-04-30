@@ -24,5 +24,8 @@ export default StyleSheet.create({
     divider: {
         marginVertical: StyleVariables.height * 0.05, fontFamily: "robotoRegular"
     },
-    signUpText: { fontFamily: "robotoRegular" }
+    signUpText: { fontFamily: "robotoRegular" },
+    errorText: {
+        color: 'red'
+    }
 })

@@ -1,4 +1,4 @@
-import { firebase } from "@Configs/firebaseConfig"
+import { app } from "@Configs/firebaseConfig"
 
 const ResolveAuth = () => {
   return new Promise((resolve, reject) => {
