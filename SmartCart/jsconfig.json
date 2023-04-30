@@ -1,0 +1,47 @@
+{
+    "compilerOptions": {
+        "module": "ESNext",
+        "moduleResolution": "Node",
+        "target": "ES2020",
+        "strictNullChecks": true,
+        "strictFunctionTypes": true,
+        "baseUrl": ".",
+        "paths": {
+            "@Tests/*": [
+                "./__tests__/"
+            ],
+            "@Components/*": [
+                "src/components/*",
+                "src/components"
+            ],
+            "@Configs/*": [
+                "src/configs/*",
+                "src/configs"
+            ],
+            "@Assets/*": [
+                "src/assets/*",
+                "src/assets"
+            ],
+            "@Containers/*": [
+                "src/containers/*",
+                "src/containers"
+            ],
+            "@Screens/*": [
+                "src/screens/*",
+                "src/screens"
+            ],
+            "@Styles/*": [
+                "src/styles/*",
+                "src/styles"
+            ],
+            "@Hooks/*": [
+                "src/hooks/*",
+                "src/hooks"
+            ]
+        }
+    },
+    "exclude": [
+        "node_modules",
+        "**/node_modules/*"
+    ]
+}
