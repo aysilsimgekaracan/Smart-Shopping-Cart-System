@@ -62,13 +62,11 @@ function Router() {
           setUser(null)
         }
 
-
         useFonts()
         await new Promise(resolve => setTimeout(resolve, 2000))
       } catch (e) {
         console.warn(e)
       } finally {
-        print(`dkjshfsdjkfhjksdhfjk`)
         setAppIsReady(true)
       }
 
