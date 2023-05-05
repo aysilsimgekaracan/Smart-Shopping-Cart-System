@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { HomeScreen, CartScreen, PaymentScreen, SignInScreen, SignUpScreen } from "./screens"
 import * as SplashScreen from 'expo-splash-screen'
 import useFonts from "@Hooks/useFonts"
+import { AntDesign, FontAwesome } from '@expo/vector-icons'
 
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -25,8 +26,16 @@ const Tab = createBottomTabNavigator()
 
 const HomeStack = () => {
   return (<Tab.Navigator initialRouteName="Home">
-    <Tab.Screen name="Home" component={HomeScreen} options={{ header: () => null }} />
-    <Tab.Screen name="Cart" component={CartScreen} options={{ header: () => null }} />
+    <Tab.Screen name="Home" component={HomeScreen} options={{
+      header: () => null, tabBarIcon: () => (
+        <AntDesign name="home" size={24} color="black" />
+      )
+    }} />
+    <Tab.Screen name="Cart" component={CartScreen} options={{
+      header: () => null, tabBarIcon: () => (
+        <FontAwesome name="opencart" size={24} color="black" />
+      )
+    }} />
 
   </Tab.Navigator>)
 
