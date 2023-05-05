@@ -7,6 +7,7 @@ import { HomeScreen, CartScreen, PaymentScreen, SignInScreen, SignUpScreen, Prof
 import * as SplashScreen from 'expo-splash-screen'
 import useFonts from "@Hooks/useFonts"
 import { AntDesign, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'
+import { getAuth } from "firebase/auth"
 
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -49,17 +50,29 @@ const HomeStack = () => {
 function Router() {
   const [user, setUser] = useState(null)
   const [appIsReady, setAppIsReady] = useState(false)
+  const auth = getAuth()
 
   useEffect(() => {
+
     async function prepare() {
       try {
+        if (auth.currentUser != null) {
+          setUser(auth)
+        } else {
+          setUser(null)
+        }
+
+
         useFonts()
         await new Promise(resolve => setTimeout(resolve, 2000))
       } catch (e) {
         console.warn(e)
       } finally {
+        print(`dkjshfsdjkfhjksdhfjk`)
         setAppIsReady(true)
       }
+
+
     }
 
     prepare()
@@ -77,7 +90,7 @@ function Router() {
 
   return (
     <NavigationContainer onReady={onLayoutRootView}>
-      <Stack.Navigator initialRouteName={user ? "HomeStack" : "HomeStack"}
+      <Stack.Navigator initialRouteName={user ? "HomeStack" : "SignIn"}
         screenOptions={{
           header: () => null
         }}>
