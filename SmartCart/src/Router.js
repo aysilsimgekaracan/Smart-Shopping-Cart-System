@@ -3,10 +3,10 @@ import { ActivityIndicator, View } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { HomeScreen, CartScreen, PaymentScreen, SignInScreen, SignUpScreen } from "./screens"
+import { HomeScreen, CartScreen, PaymentScreen, SignInScreen, SignUpScreen, ProfileScreen } from "./screens"
 import * as SplashScreen from 'expo-splash-screen'
 import useFonts from "@Hooks/useFonts"
-import { AntDesign, FontAwesome } from '@expo/vector-icons'
+import { AntDesign, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons'
 
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -34,6 +34,11 @@ const HomeStack = () => {
     <Tab.Screen name="Cart" component={CartScreen} options={{
       header: () => null, tabBarIcon: () => (
         <FontAwesome name="opencart" size={24} color="black" />
+      )
+    }} />
+    <Tab.Screen name="Profile" component={ProfileScreen} options={{
+      header: () => null, tabBarIcon: () => (
+        <MaterialCommunityIcons name="account-outline" size={24} color="black" />
       )
     }} />
 
