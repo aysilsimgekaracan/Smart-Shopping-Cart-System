@@ -1,7 +1,8 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { SignUpContainer } from "../../containers"
 import { useNavigation } from "@react-navigation/native"
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth"
+import { createUserWithEmailAndPassword } from "firebase/auth"
+import { auth } from "@Configs/firebaseConfig"
 
 export function SignUpScreen() {
     const navigation = useNavigation()
@@ -9,16 +10,24 @@ export function SignUpScreen() {
     const [password, setPassword] = useState('')
     const [error, setError] = useState(null)
 
-    const auth = getAuth()
+
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged(user => {
+            if (user) {
+                navigation.navigate("HomeStack")
+            }
+        })
+
+        return unsubscribe
+    }, [])
 
     const signUp = () => {
         createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
+            .then(() => {
                 // Signed in 
                 setError(null)
-                const user = userCredential.user
-                console.log(user)
-                navigation.navigate("HomeStack")
+                // const user = userCredential.user
+                // console.log(user)
             })
             .catch((error) => {
                 // const errorCode = error.code
