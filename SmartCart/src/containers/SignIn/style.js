@@ -15,7 +15,8 @@ export default StyleSheet.create({
     },
     appText: {
         fontFamily: "robotoMedium",
-        textAlign: 'center'
+        textAlign: 'center',
+        paddingTop: 30
     },
     textInput: {
         width: StyleVariables.width * 0.9,

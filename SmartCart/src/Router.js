@@ -1,14 +1,27 @@
-import React, { useEffect, useState, useCallback } from "react"
-import { ActivityIndicator, View } from 'react-native'
-import { NavigationContainer } from '@react-navigation/native'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { HomeScreen, CartScreen, PaymentScreen, SignInScreen, SignUpScreen } from "./screens"
-import * as SplashScreen from 'expo-splash-screen'
-import useFonts from "@Hooks/useFonts"
+import React, { useEffect, useState, useCallback } from "react";
+import { ActivityIndicator, View } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import {
+  HomeScreen,
+  CartScreen,
+  PaymentScreen,
+  SignInScreen,
+  SignUpScreen,
+  ProfileScreen,
+} from "./screens";
+import * as SplashScreen from "expo-splash-screen";
+import useFonts from "@Hooks/useFonts";
+import {
+  AntDesign,
+  FontAwesome,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
+import { getAuth } from "firebase/auth";
 
-const Stack = createNativeStackNavigator()
-const Tab = createBottomTabNavigator()
+const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
 // function PaymentStack() {
 //     return (
@@ -24,63 +37,105 @@ const Tab = createBottomTabNavigator()
 // }
 
 const HomeStack = () => {
-  return (<Tab.Navigator initialRouteName="Home">
-    <Tab.Screen name="Home" component={HomeScreen} options={{ header: () => null }} />
-    <Tab.Screen name="Cart" component={CartScreen} options={{ header: () => null }} />
-
-  </Tab.Navigator>)
-
-}
+  return (
+    <Tab.Navigator initialRouteName="Home">
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          header: () => null,
+          tabBarIcon: () => <AntDesign name="home" size={24} color="black" />,
+        }}
+      />
+      <Tab.Screen
+        name="Cart"
+        component={CartScreen}
+        options={{
+          header: () => null,
+          tabBarIcon: () => (
+            <FontAwesome name="opencart" size={24} color="black" />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          header: () => null,
+          tabBarIcon: () => (
+            <MaterialCommunityIcons
+              name="account-outline"
+              size={24}
+              color="black"
+            />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
+};
 
 function Router() {
-  const [user, setUser] = useState(null)
-  const [appIsReady, setAppIsReady] = useState(false)
+  const [user, setUser] = useState(null);
+  const [appIsReady, setAppIsReady] = useState(false);
+  const auth = getAuth();
 
   useEffect(() => {
     async function prepare() {
       try {
-        useFonts()
-        await new Promise(resolve => setTimeout(resolve, 2000))
+        if (auth.currentUser != null) {
+          setUser(auth);
+        } else {
+          setUser(null);
+        }
+
+        useFonts();
+        await new Promise((resolve) => setTimeout(resolve, 2000));
       } catch (e) {
-        console.warn(e)
+        console.warn(e);
       } finally {
-        setAppIsReady(true)
+        setAppIsReady(true);
       }
     }
 
-    prepare()
-  }, [])
+    prepare();
+  }, []);
 
   const onLayoutRootView = useCallback(async () => {
     if (appIsReady) {
-      await SplashScreen.hideAsync()
+      await SplashScreen.hideAsync();
     }
-  }, [appIsReady])
+  }, [appIsReady]);
 
   if (!appIsReady) {
-    return null
+    return null;
   }
 
   return (
     <NavigationContainer onReady={onLayoutRootView}>
-      <Stack.Navigator initialRouteName={user ? "HomeStack" : "SignIn"}
+      <Stack.Navigator
+        initialRouteName={user ? "HomeStack" : "HomeStack"}
         screenOptions={{
-          header: () => null
-        }}>
+          header: () => null,
+        }}
+      >
         <Stack.Screen
           name="SignIn"
           component={SignInScreen}
-          options={{ gestureEnabled: false }} />
+          options={{ gestureEnabled: false }}
+        />
 
         <Stack.Screen
           name="SignUp"
           component={SignUpScreen}
-          options={{ gestureEnabled: false }} />
+          options={{ gestureEnabled: false }}
+        />
 
         <Stack.Screen
           name="HomeStack"
           component={HomeStack}
-          options={{ gestureEnabled: false }} />
+          options={{ gestureEnabled: false }}
+        />
 
         <Stack.Screen
           name="Payment"
@@ -89,8 +144,7 @@ function Router() {
         />
       </Stack.Navigator>
     </NavigationContainer>
-  )
+  );
 }
 
-
-export default Router
+export default Router;
