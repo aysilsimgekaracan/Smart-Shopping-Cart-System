@@ -129,6 +129,26 @@ android {
         extraJNILibs
     }
 
+    /**
+     * Without the packaging options, it will result in the following build error:
+     *
+     * * What went wrong:
+     * Execution failed for task ':app:mergeDebugNativeLibs'.
+     * > A failure occurred while executing com.android.build.gradle.internal.tasks.Workers$ActionFacade
+     *    > More than one file was found with OS independent path 'lib/x86/libfbjni.so'
+     */
+    packagingOptions {
+        pickFirst '**/*.so'
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs += ["$buildDir/extra-jniLibs/jni"]
+        }
+    }
+    configurations {
+        extraJNILibs
+    }
+
     ndkVersion rootProject.ext.ndkVersion
 
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -231,7 +251,32 @@ tasks.whenTaskAdded { task ->
   }
 }
 
+
+// Extract JNI shared libraries as project libraries. This assumes the target directory, $buildDir/extra-jniLibs, is added to the jniLibs.srcDirs configuration.
+task extraJNILibs {
+  doLast {
+    configurations.extraJNILibs.files.each {
+      def file = it.absoluteFile
+
+      copy {
+        from zipTree(file)
+        into "$buildDir/extra-jniLibs" // temp location instead of "src/main/jniLibs"
+        include "jni/**/*"
+      }
+    }
+  }
+}
+
+tasks.whenTaskAdded { task ->
+  if (task.name == 'mergeDebugJniLibFolders' || task.name == 'mergeReleaseJniLibFolders') {
+    task.dependsOn(extraJNILibs)
+  }
+}
+
 dependencies {
+    // Used to control the version of libfbjni.so packaged into the APK
+    extraJNILibs("com.facebook.fbjni:fbjni:0.2.2")
+
     // Used to control the version of libfbjni.so packaged into the APK
     extraJNILibs("com.facebook.fbjni:fbjni:0.2.2")
 
