@@ -53,7 +53,7 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Used to scan products</string>
+	<string>Allow $(PRODUCT_NAME) to access your camera</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
