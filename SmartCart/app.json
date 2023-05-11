@@ -29,7 +29,8 @@
       "favicon": "./src/assets/favicon.png"
     },
     "plugins": [
-      "react-native-pytorch-core"
+      "react-native-pytorch-core",
+      "react-native-vision-camera"
     ]
   }
 }
