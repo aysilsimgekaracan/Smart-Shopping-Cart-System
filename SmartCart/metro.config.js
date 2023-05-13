@@ -1,4 +1,13 @@
-// Learn more https://docs.expo.io/guides/customizing-metro
-const { getDefaultConfig } = require('expo/metro-config');
+// get defaults assetExts array
+const defaultAssetExts =
+  require("metro-config/src/defaults/defaults").assetExts;
 
-module.exports = getDefaultConfig(__dirname);
+module.exports = {
+  // ...
+
+  resolver: {
+    assetExts: [...defaultAssetExts, "ptl"],
+  },
+
+  // ...
+};

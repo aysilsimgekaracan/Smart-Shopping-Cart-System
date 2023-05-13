@@ -1,25 +1,14 @@
 module.exports = function (api) {
-  api.cache(true)
+  api.cache(true);
   return {
-    presets: ['babel-preset-expo', 'module:metro-react-native-babel-preset'],
+    presets: ["babel-preset-expo", "module:metro-react-native-babel-preset"],
 
     plugins: [
       [
-        "module:react-native-dotenv",
+        "module-resolver",
         {
-          moduleName: '@env',
-          path: '.env',
-          blacklist: null,
-          whitelist: null,
-          safe: false,
-          allowUndefined: true
-        }
-      ],
-      [
-        'module-resolver',
-        {
-          root: ['.'],
-          extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
+          root: ["."],
+          extensions: [".js", ".jsx", ".ts", ".tsx", ".json"],
           alias: {
             "@Components": "./src/components",
             "@Configs": "./src/configs",
@@ -27,10 +16,22 @@ module.exports = function (api) {
             "@Containers": "./src/containers",
             "@Styles": "./src/styles",
             "@Screens": "./src/screens",
-            "@Hooks": "./src/hooks"
-          }
-        }
-      ]
-    ]
-  }
-}
+            "@Hooks": "./src/hooks",
+          },
+        },
+      ],
+      [
+        "module:react-native-dotenv",
+        {
+          moduleName: "@env",
+          path: ".env",
+          blacklist: null,
+          whitelist: null,
+          safe: false,
+          allowUndefined: true,
+        },
+      ],
+      ["react-native-reanimated/plugin"],
+    ],
+  };
+};
