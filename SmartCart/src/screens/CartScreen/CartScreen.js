@@ -21,13 +21,23 @@ export function CartScreen() {
     }
 
     getProducts();
+
+    console.log(products);
   }, []);
+
+  const getProduct = (className) => {
+    return products.find((item) => item.id === className);
+  };
 
   const goToPaymentScreen = () => {
     navigation.navigate("Payment");
   };
 
   return (
-    <CartContainer goToPaymentScreen={goToPaymentScreen} products={products} />
+    <CartContainer
+      goToPaymentScreen={goToPaymentScreen}
+      products={products}
+      getProduct={getProduct}
+    />
   );
 }

@@ -3,9 +3,11 @@ import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { Camera } from "expo-camera";
 import { useIsFocused } from "@react-navigation/native";
 import { useKeepAwake } from "expo-keep-awake";
-import Icon from "@expo/vector-icons/MaterialCommunityIcons";
+import { MaterialIcons } from "@expo/vector-icons";
 import { Divider } from "@react-native-material/core";
 import { ListItem, Avatar, Button } from "@react-native-material/core";
+import { LinearGradient } from "expo-linear-gradient";
+import { CircularIconButton } from "@Components/index";
 
 // Alias for torchvision transforms
 import axios from "axios";
@@ -13,9 +15,11 @@ import { ROBOFLOW_API_KEY, ROBOFLOW_URL } from "@env";
 
 let camera: Camera;
 
-export function CartContainer({ goToPaymentScreen, products }) {
+export function CartContainer({ goToPaymentScreen, products, getProduct }) {
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const [revealed, setRevealed] = useState(false);
+  const [isOpened, setIsOpened] = useState(false);
+  const [response, setResponse] = useState(null);
   const SECOND_MS = 10000;
   const isFocused = useIsFocused();
   useKeepAwake();
@@ -44,6 +48,21 @@ export function CartContainer({ goToPaymentScreen, products }) {
           })
             .then(function (response) {
               console.log(response.data);
+
+              if (
+                response != null &&
+                response.data.hasOwnProperty("predictions") &&
+                response.data.predictions.length > 0
+              ) {
+                const filteredPredictions = response.data.predictions.filter(
+                  (prediction) => prediction.confidence >= 0.85
+                );
+
+                response.predictions = filteredPredictions;
+                setResponse(response);
+              } else {
+                setResponse(response.data);
+              }
             })
             .catch(function (error) {
               console.log(error.message);
@@ -84,39 +103,83 @@ export function CartContainer({ goToPaymentScreen, products }) {
           }}
         >
           <View style={styles.responseView}>
-            <View style={styles.cartView}>
+            <LinearGradient
+              colors={["#8e44ad", "#9b59b6", "#ff6b6b"]}
+              style={styles.cartView}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+            >
               <Text style={styles.cartText}>Cart</Text>
-            </View>
+            </LinearGradient>
+
             <View>
-              <Button
-                title="Purchase"
-                color="pink"
-                tintColor="red"
-                leading={(props) => <Icon name="delete" {...props} />}
+              <CircularIconButton
+                iconName={isOpened ? "open-in-full" : "close-fullscreen"}
+                onPress={() => {
+                  setIsOpened(!isOpened);
+                }}
               />
-              <ScrollView style={styles.scrollView}>
-                <Text style={styles.cartText}>Products</Text>
+              <ScrollView
+                style={[styles.scrollView, { height: isOpened ? 300 : 0 }]}
+              >
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Text style={styles.productsText}>Products</Text>
+                  <LinearGradient
+                    colors={["#4c669f", "#3b5998", "#192f6a"]}
+                    style={styles.purchaseButton}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 0 }}
+                  >
+                    <Button
+                      title="Purchase"
+                      leading={(props) => (
+                        <MaterialIcons name="payment" size={24} color="white" />
+                      )}
+                      onPress={goToPaymentScreen}
+                      disabled={
+                        response == null ||
+                        (response.hasOwnProperty("predictions") &&
+                          response.predictions.length == 0)
+                      }
+                    />
+                  </LinearGradient>
+                </View>
 
                 <Divider color="lightgrey" />
-                {products.map((product) => {
-                  return (
-                    <ListItem
-                      leadingMode="image"
-                      leading={<Avatar image={{ uri: product.image }} />}
-                      key={product.id}
-                      title={product.name}
-                      trailing={(props) => (
-                        <Text
-                          variant="caption"
-                          {...props}
-                          style={{ fontSize: 10 }}
-                        >
-                          {product.price}TL
-                        </Text>
-                      )}
-                    />
-                  );
-                })}
+                {response != null &&
+                response.hasOwnProperty("predictions") &&
+                response.predictions.length != 0 ? (
+                  <>
+                    {response.predictions.map((prediction) => {
+                      let product = getProduct(prediction.class);
+                      console.log(product);
+                      return (
+                        <ListItem
+                          leadingMode="image"
+                          leading={<Avatar image={{ uri: product.image }} />}
+                          key={product.id}
+                          title={product.name}
+                          trailing={(props) => (
+                            <Text
+                              variant="caption"
+                              {...props}
+                              style={{ fontSize: 10 }}
+                            >
+                              {product.price}TL
+                            </Text>
+                          )}
+                        />
+                      );
+                    })}
+                  </>
+                ) : (
+                  <></>
+                )}
               </ScrollView>
             </View>
           </View>
@@ -140,13 +203,13 @@ const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: "white",
     width: "100%",
-    maxHeight: 300,
     alignContent: "flex-end",
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
   },
   text: {
     fontSize: 42,
+    fontFamily: "robotoBold",
   },
   responseView: {
     flexGrow: 1,
@@ -155,15 +218,28 @@ const styles = StyleSheet.create({
   },
   cartView: {
     backgroundColor: "white",
-    width: "80%",
-    margin: "10%",
-    height: 80,
+    width: "50%",
+    marginHorizontal: "25%",
+    marginTop: 40,
+    height: 60,
     borderRadius: 40,
     justifyContent: "center",
     verticalAlign: "middle",
     alignItems: "center",
   },
   cartText: {
+    color: "white",
+    fontFamily: "robotoBold",
     fontSize: 36,
+  },
+  productsText: {
+    fontFamily: "robotoRegular",
+    fontSize: 36,
+    margin: 7,
+  },
+  purchaseButton: {
+    margin: 7,
+    width: "40%",
+    height: 40,
   },
 });
