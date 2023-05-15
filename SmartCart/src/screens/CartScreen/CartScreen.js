@@ -3,10 +3,15 @@ import { CartContainer } from "../../containers";
 import { useNavigation } from "@react-navigation/native";
 import { db } from "@Configs/firebaseConfig";
 import { collection, getDocs } from "firebase/firestore";
+import { useIsFocused } from "@react-navigation/native";
 
 export function CartScreen() {
   const navigation = useNavigation();
   const [products, setProducts] = useState([]);
+  const [isOpened, setIsOpened] = useState(false);
+  const [response, setResponse] = useState(null);
+  const isFocused = useIsFocused();
+  const SECOND_MS = 10000;
 
   useEffect(() => {
     async function getProducts() {
@@ -38,6 +43,12 @@ export function CartScreen() {
       goToPaymentScreen={goToPaymentScreen}
       products={products}
       getProduct={getProduct}
+      isOpened={isOpened}
+      setIsOpened={setIsOpened}
+      response={response}
+      setResponse={setResponse}
+      isFocused={isFocused}
+      SECOND_MS={SECOND_MS}
     />
   );
 }

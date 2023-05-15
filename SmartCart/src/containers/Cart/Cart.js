@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { useEffect } from "react";
+import { Text, View, ScrollView } from "react-native";
 import { Camera } from "expo-camera";
-import { useIsFocused } from "@react-navigation/native";
 import { useKeepAwake } from "expo-keep-awake";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Divider } from "@react-native-material/core";
 import { ListItem, Avatar, Button } from "@react-native-material/core";
 import { LinearGradient } from "expo-linear-gradient";
 import { CircularIconButton } from "@Components/index";
+import styles from "./style";
 
 // Alias for torchvision transforms
 import axios from "axios";
@@ -15,13 +15,18 @@ import { ROBOFLOW_API_KEY, ROBOFLOW_URL } from "@env";
 
 let camera: Camera;
 
-export function CartContainer({ goToPaymentScreen, products, getProduct }) {
+export function CartContainer({
+  goToPaymentScreen,
+  products,
+  getProduct,
+  isOpened,
+  setIsOpened,
+  response,
+  setResponse,
+  isFocused,
+  SECOND_MS,
+}) {
   const [permission, requestPermission] = Camera.useCameraPermissions();
-  const [revealed, setRevealed] = useState(false);
-  const [isOpened, setIsOpened] = useState(false);
-  const [response, setResponse] = useState(null);
-  const SECOND_MS = 10000;
-  const isFocused = useIsFocused();
   useKeepAwake();
 
   // This useEffect starts the timer
@@ -188,58 +193,3 @@ export function CartContainer({ goToPaymentScreen, products, getProduct }) {
     );
   }
 }
-
-// Custom render style for label container
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  camera: {
-    width: "100%",
-    height: "100%",
-  },
-  scrollView: {
-    backgroundColor: "white",
-    width: "100%",
-    alignContent: "flex-end",
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
-  },
-  text: {
-    fontSize: 42,
-    fontFamily: "robotoBold",
-  },
-  responseView: {
-    flexGrow: 1,
-    justifyContent: "space-between",
-    flexDirection: "column",
-  },
-  cartView: {
-    backgroundColor: "white",
-    width: "50%",
-    marginHorizontal: "25%",
-    marginTop: 40,
-    height: 60,
-    borderRadius: 40,
-    justifyContent: "center",
-    verticalAlign: "middle",
-    alignItems: "center",
-  },
-  cartText: {
-    color: "white",
-    fontFamily: "robotoBold",
-    fontSize: 36,
-  },
-  productsText: {
-    fontFamily: "robotoRegular",
-    fontSize: 36,
-    margin: 7,
-  },
-  purchaseButton: {
-    margin: 7,
-    width: "40%",
-    height: 40,
-  },
-});
