@@ -4,6 +4,7 @@ import {
   View,
   Keyboard,
   TouchableWithoutFeedback,
+  ActivityIndicator,
 } from "react-native";
 import styles from "./style";
 import { GoBackButton } from "@Components/index";
@@ -26,7 +27,8 @@ export function PaymentContainer({
   isNumeric,
   isValidExpiryDate,
   handleChangeExpiryDate,
-  goToOrderConfirmationScreen,
+  handlePayment,
+  loading,
 }) {
   const handleValidation = () => {
     if (cardNumber.length !== 16 || !isNumeric(cardNumber)) {
@@ -51,7 +53,7 @@ export function PaymentContainer({
     }
 
     // The paymet details are valid, navigate to Order Confirmation Screen
-    goToOrderConfirmationScreen();
+    handlePayment();
   };
 
   const dismissKeyboard = () => {
@@ -95,6 +97,7 @@ export function PaymentContainer({
               autoCapitalize="none"
             />
           </Stack>
+          {loading && <ActivityIndicator />}
           <View>
             <Divider color="lightgrey" />
             <View style={styles.totalContainer}>
@@ -109,6 +112,7 @@ export function PaymentContainer({
               tintColor="white"
               onPress={handleValidation}
               style={styles.button}
+              disabled={loading}
             />
           </View>
         </View>

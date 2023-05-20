@@ -13,6 +13,7 @@ export function PaymentScreen(props) {
   const [expiryDate, setExpiryDate] = useState("");
   const [cvv, setCvv] = useState("");
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (auth.currentUser != null) {
@@ -74,26 +75,47 @@ export function PaymentScreen(props) {
   const goBack = () => {
     navigation.goBack();
   };
+
+  const goToOrderConfirmationScreen = () => {
+    navigation.navigate("OrderConfirmation");
+  };
+
   const handlePayment = async () => {
+    setLoading(true);
     if (user != null) {
       const userId = user.currentUser.uid;
       try {
         const ordersCollection = collection(db, "orders");
 
-        const orderDocRef = await addDoc(ordersCollection, {
+        addDoc(ordersCollection, {
           createdDate: serverTimestamp(),
           userId: userId,
           totalAmount: totalAmount,
-        });
+        })
+          .then((orderDocRef) => {
+            const orderDetailsCollection = collection(db, "orderDetails");
+            const orderId = orderDocRef.id;
+            for (let key in itemsInCart) {
+              console.log(itemsInCart);
+              addDoc(orderDetailsCollection, {
+                orderId: orderId,
+                product_id: key,
+                quantity: itemsInCart[key],
+              });
+            }
+
+            // Navigate where you want
+            setLoading(false);
+            goToOrderConfirmationScreen();
+          })
+          .catch((error) => {
+            console.error("Error adding order:", error);
+          });
       } catch (error) {
         console.log(error.message);
       }
     }
-  };
-
-  const goToOrderConfirmationScreen = () => {
-    handlePayment();
-    // navigation.navigate("OrderConfirmation");
+    setLoading(false);
   };
 
   return (
@@ -109,7 +131,8 @@ export function PaymentScreen(props) {
       isNumeric={isNumeric}
       isValidExpiryDate={isValidExpiryDate}
       handleChangeExpiryDate={handleChangeExpiryDate}
-      goToOrderConfirmationScreen={goToOrderConfirmationScreen}
+      handlePayment={handlePayment}
+      loading={loading}
     />
   );
 }
