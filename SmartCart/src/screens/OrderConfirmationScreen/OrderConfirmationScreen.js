@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { OrderConfirmationContainer } from "../../containers";
 import { useNavigation } from "@react-navigation/native";
 import { CommonActions } from "@react-navigation/native";

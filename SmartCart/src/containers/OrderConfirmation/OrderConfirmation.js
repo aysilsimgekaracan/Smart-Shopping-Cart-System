@@ -1,19 +1,6 @@
-import {
-  SafeAreaView,
-  Alert,
-  View,
-  Keyboard,
-  TouchableWithoutFeedback,
-} from "react-native";
+import { SafeAreaView } from "react-native";
 import styles from "./style";
-import { GoBackButton } from "@Components/index";
-import {
-  TextInput,
-  Button,
-  Text,
-  Stack,
-  Divider,
-} from "@react-native-material/core";
+import { Button, Text } from "@react-native-material/core";
 import { Ionicons } from "@expo/vector-icons";
 
 export function OrderConfirmationContainer({ navigateToHomeScreen }) {
