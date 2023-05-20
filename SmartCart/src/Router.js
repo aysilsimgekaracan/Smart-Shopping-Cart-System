@@ -11,6 +11,7 @@ import {
   SignUpScreen,
   ProfileScreen,
   CartDetailScreen,
+  OrderConfirmationScreen,
 } from "./screens";
 import * as SplashScreen from "expo-splash-screen";
 import useFonts from "@Hooks/useFonts";
@@ -39,6 +40,11 @@ function CartStack() {
       <Stack.Screen
         name="Payment"
         component={PaymentScreen}
+        options={{ gestureEnabled: false }}
+      />
+      <Stack.Screen
+        name="OrderConfirmation"
+        component={OrderConfirmationScreen}
         options={{ gestureEnabled: false }}
       />
     </Stack.Navigator>

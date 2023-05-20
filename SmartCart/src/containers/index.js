@@ -5,3 +5,4 @@ export * from "./SignIn/SignIn";
 export * from "./SignUp/SignUp";
 export * from "./Profile/Profile";
 export * from "./CartDetail/CartDetail";
+export * from "./OrderConfirmation/OrderConfirmation";

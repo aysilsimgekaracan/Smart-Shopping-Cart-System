@@ -6,3 +6,4 @@ export * from "./SignUpScreen/SignUpScreen";
 export * from "./ProfileScreen/ProfileScreen";
 export * from "./ResolveAuth";
 export * from "./CartDetailScreen/CartDetailScreen";
+export * from "./OrderConfirmationScreen/OrderConfirmationScreen";
