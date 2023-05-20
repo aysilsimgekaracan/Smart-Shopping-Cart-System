@@ -12,6 +12,8 @@ import {
   ProfileScreen,
   CartDetailScreen,
   OrderConfirmationScreen,
+  OrdersScreen,
+  OrderDetailsScreen,
 } from "./screens";
 import * as SplashScreen from "expo-splash-screen";
 import useFonts from "@Hooks/useFonts";
@@ -51,6 +53,27 @@ function CartStack() {
   );
 }
 
+function ProfileStack() {
+  return (
+    <Stack.Navigator
+      screenOptions={{ header: () => null }}
+      initialRouteName="ProfileStack"
+    >
+      <Stack.Screen name="ProfileStack" component={ProfileScreen} />
+      <Stack.Screen
+        name="Orders"
+        component={OrdersScreen}
+        options={{ gestureEnabled: false }}
+      />
+      <Stack.Screen
+        name="OrderDetailsScreen"
+        component={OrderDetailsScreen}
+        options={{ gestureEnabled: false }}
+      />
+    </Stack.Navigator>
+  );
+}
+
 const HomeStack = () => {
   return (
     <Tab.Navigator initialRouteName="Home">
@@ -74,7 +97,7 @@ const HomeStack = () => {
       />
       <Tab.Screen
         name="Profile"
-        component={ProfileScreen}
+        component={ProfileStack}
         options={{
           header: () => null,
           tabBarIcon: () => (
@@ -149,12 +172,6 @@ function Router() {
         <Stack.Screen
           name="HomeStack"
           component={HomeStack}
-          options={{ gestureEnabled: false }}
-        />
-
-        <Stack.Screen
-          name="Payment"
-          component={PaymentScreen}
           options={{ gestureEnabled: false }}
         />
       </Stack.Navigator>

@@ -6,3 +6,5 @@ export * from "./SignUp/SignUp";
 export * from "./Profile/Profile";
 export * from "./CartDetail/CartDetail";
 export * from "./OrderConfirmation/OrderConfirmation";
+export * from "./Orders/Orders";
+export * from "./OrderDetails/OrderDetails";

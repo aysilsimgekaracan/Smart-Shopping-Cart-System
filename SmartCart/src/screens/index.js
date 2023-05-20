@@ -7,3 +7,5 @@ export * from "./ProfileScreen/ProfileScreen";
 export * from "./ResolveAuth";
 export * from "./CartDetailScreen/CartDetailScreen";
 export * from "./OrderConfirmationScreen/OrderConfirmationScreen";
+export * from "./OrdersScren/OrdersScreen";
+export * from "./OrderDetailsScreen/OrderDetailsScreen";
