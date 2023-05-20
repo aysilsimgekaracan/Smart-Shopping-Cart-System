@@ -66,7 +66,7 @@ function ProfileStack() {
         options={{ gestureEnabled: false }}
       />
       <Stack.Screen
-        name="OrderDetailsScreen"
+        name="OrderDetails"
         component={OrderDetailsScreen}
         options={{ gestureEnabled: false }}
       />
@@ -90,6 +90,7 @@ const HomeStack = () => {
         component={CartStack}
         options={{
           header: () => null,
+          tabBarLabel: "Cart",
           tabBarIcon: () => (
             <FontAwesome name="opencart" size={24} color="black" />
           ),
