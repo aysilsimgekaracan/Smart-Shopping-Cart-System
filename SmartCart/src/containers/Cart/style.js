@@ -38,7 +38,6 @@ export default styles = StyleSheet.create({
     alignItems: "center",
   },
   cartText: {
-    color: "#ff4e4e",
     fontFamily: "robotoBold",
     fontSize: 36,
   },

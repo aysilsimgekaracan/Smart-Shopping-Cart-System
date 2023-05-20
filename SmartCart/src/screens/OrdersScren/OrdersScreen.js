@@ -50,5 +50,16 @@ export function OrdersScreen(props) {
     navigation.goBack();
   };
 
-  return <OrdersContainer goBack={goBack} orders={orders} loading={loading} />;
+  const goToOrdersDetailScreen = (orderId) => {
+    navigation.navigate("OrderDetails", { orderId: orderId });
+  };
+
+  return (
+    <OrdersContainer
+      goBack={goBack}
+      orders={orders}
+      loading={loading}
+      goToOrdersDetailScreen={goToOrdersDetailScreen}
+    />
+  );
 }

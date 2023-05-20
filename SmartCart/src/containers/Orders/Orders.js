@@ -8,9 +8,14 @@ import {
 } from "react-native";
 import styles from "./style";
 import { GoBackButton } from "@Components/index";
-import { Text, ListItem, Stack } from "@react-native-material/core";
+import { Text, ListItem } from "@react-native-material/core";
 
-export function OrdersContainer({ goBack, orders, loading }) {
+export function OrdersContainer({
+  goBack,
+  orders,
+  loading,
+  goToOrdersDetailScreen,
+}) {
   const dismissKeyboard = () => {
     Keyboard.dismiss();
   };
@@ -36,6 +41,9 @@ export function OrdersContainer({ goBack, orders, loading }) {
                 // Add other desired order details
                 overline="ORDER"
                 meta={`${order.totalAmount} TL`}
+                onPress={() => {
+                  goToOrdersDetailScreen(order.id);
+                }}
               />
             ))}
           </ScrollView>
