@@ -10,6 +10,7 @@ import {
   SignInScreen,
   SignUpScreen,
   ProfileScreen,
+  CartDetailScreen,
 } from "./screens";
 import * as SplashScreen from "expo-splash-screen";
 import useFonts from "@Hooks/useFonts";
@@ -23,18 +24,26 @@ import { getAuth } from "firebase/auth";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-// function PaymentStack() {
-//     return (
-//     <Stack.Navigator
-//         screenOptions={{ header: () => null }}
-//         initialRouteName="Cart">
-//         <Stack.Screen name="Cart" component={CartScreen} />
-//         <Stack.Screen name="Payment" component={PaymentScreen} />
-
-//     </Stack.Navigator>
-//     )
-
-// }
+function CartStack() {
+  return (
+    <Stack.Navigator
+      screenOptions={{ header: () => null }}
+      initialRouteName="Cart"
+    >
+      <Stack.Screen name="Cart" component={CartScreen} />
+      <Stack.Screen
+        name="CartDetail"
+        component={CartDetailScreen}
+        options={{ gestureEnabled: false }}
+      />
+      <Stack.Screen
+        name="Payment"
+        component={PaymentScreen}
+        options={{ gestureEnabled: false }}
+      />
+    </Stack.Navigator>
+  );
+}
 
 const HomeStack = () => {
   return (
@@ -48,8 +57,8 @@ const HomeStack = () => {
         }}
       />
       <Tab.Screen
-        name="Cart"
-        component={CartScreen}
+        name="CartStack"
+        component={CartStack}
         options={{
           header: () => null,
           tabBarIcon: () => (

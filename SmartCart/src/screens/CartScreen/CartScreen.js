@@ -26,21 +26,31 @@ export function CartScreen() {
     }
 
     getProducts();
-
-    console.log(products);
   }, []);
 
   const getProduct = (className) => {
     return products.find((item) => item.id === className);
   };
 
-  const goToPaymentScreen = () => {
-    navigation.navigate("Payment");
+  const goToCartDetailScreen = (itemsInCart) => {
+    const serializedItemsInCart = {};
+    itemsInCart.map((item) => {
+      let itemClass = item.class;
+      if (serializedItemsInCart.hasOwnProperty(itemClass)) {
+        serializedItemsInCart[itemClass] = serializedItemsInCart.itemClass + 1;
+      } else {
+        serializedItemsInCart[itemClass] = 1;
+      }
+    });
+
+    console.log(serializedItemsInCart);
+
+    navigation.navigate("CartDetail", { itemsInCart: serializedItemsInCart });
   };
 
   return (
     <CartContainer
-      goToPaymentScreen={goToPaymentScreen}
+      goToCartDetailScreen={goToCartDetailScreen}
       products={products}
       getProduct={getProduct}
       isOpened={isOpened}

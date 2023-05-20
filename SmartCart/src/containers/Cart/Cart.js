@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Text, View, ScrollView } from "react-native";
 import { Camera } from "expo-camera";
-import { useKeepAwake } from "expo-keep-awake";
+// import { useKeepAwake } from "expo-keep-awake";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Divider } from "@react-native-material/core";
 import { ListItem, Avatar, Button } from "@react-native-material/core";
@@ -16,7 +16,7 @@ import { ROBOFLOW_API_KEY, ROBOFLOW_URL } from "@env";
 let camera: Camera;
 
 export function CartContainer({
-  goToPaymentScreen,
+  goToCartDetailScreen,
   products,
   getProduct,
   isOpened,
@@ -27,7 +27,7 @@ export function CartContainer({
   SECOND_MS,
 }) {
   const [permission, requestPermission] = Camera.useCameraPermissions();
-  useKeepAwake();
+  // useKeepAwake();
 
   // This useEffect starts the timer
   useEffect(() => {
@@ -145,7 +145,7 @@ export function CartContainer({
                       leading={(props) => (
                         <MaterialIcons name="payment" size={24} color="white" />
                       )}
-                      onPress={goToPaymentScreen}
+                      onPress={() => goToCartDetailScreen(response.predictions)}
                       disabled={
                         response == null ||
                         (response.hasOwnProperty("predictions") &&
