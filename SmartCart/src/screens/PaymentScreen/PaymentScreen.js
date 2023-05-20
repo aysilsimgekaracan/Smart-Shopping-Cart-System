@@ -54,6 +54,10 @@ export function PaymentScreen(props) {
     navigation.goBack();
   };
 
+  const goToOrderConfirmationScreen = () => {
+    navigation.navigate("OrderConfirmation");
+  };
+
   return (
     <PaymentContainer
       goBack={goBack}
@@ -67,6 +71,7 @@ export function PaymentScreen(props) {
       isNumeric={isNumeric}
       isValidExpiryDate={isValidExpiryDate}
       handleChangeExpiryDate={handleChangeExpiryDate}
+      goToOrderConfirmationScreen={goToOrderConfirmationScreen}
     />
   );
 }

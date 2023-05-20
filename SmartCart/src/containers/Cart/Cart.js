@@ -60,7 +60,7 @@ export function CartContainer({
                 response.data.predictions.length > 0
               ) {
                 const filteredPredictions = response.data.predictions.filter(
-                  (prediction) => prediction.confidence >= 0.85
+                  (prediction) => prediction.confidence >= 0.8
                 );
 
                 response.predictions = filteredPredictions;
@@ -108,14 +108,9 @@ export function CartContainer({
           }}
         >
           <View style={styles.responseView}>
-            <LinearGradient
-              colors={["#8e44ad", "#9b59b6", "#ff6b6b"]}
-              style={styles.cartView}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-            >
+            <View style={styles.cartView}>
               <Text style={styles.cartText}>Cart</Text>
-            </LinearGradient>
+            </View>
 
             <View>
               <CircularIconButton
@@ -134,25 +129,22 @@ export function CartContainer({
                   }}
                 >
                   <Text style={styles.productsText}>Products</Text>
-                  <LinearGradient
-                    colors={["#4c669f", "#3b5998", "#192f6a"]}
+
+                  <Button
+                    title="Purchase"
                     style={styles.purchaseButton}
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 1, y: 0 }}
-                  >
-                    <Button
-                      title="Purchase"
-                      leading={(props) => (
-                        <MaterialIcons name="payment" size={24} color="white" />
-                      )}
-                      onPress={() => goToCartDetailScreen(response.predictions)}
-                      disabled={
-                        response == null ||
-                        (response.hasOwnProperty("predictions") &&
-                          response.predictions.length == 0)
-                      }
-                    />
-                  </LinearGradient>
+                    color="#5a66ff"
+                    tintColor="white"
+                    leading={(props) => (
+                      <MaterialIcons name="payment" size={24} color="white" />
+                    )}
+                    onPress={() => goToCartDetailScreen(response.predictions)}
+                    disabled={
+                      response == null ||
+                      (response.hasOwnProperty("predictions") &&
+                        response.predictions.length == 0)
+                    }
+                  />
                 </View>
 
                 <Divider color="lightgrey" />

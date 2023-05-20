@@ -26,6 +26,7 @@ export function PaymentContainer({
   isNumeric,
   isValidExpiryDate,
   handleChangeExpiryDate,
+  goToOrderConfirmationScreen,
 }) {
   const handleValidation = () => {
     if (cardNumber.length !== 16 || !isNumeric(cardNumber)) {
@@ -49,10 +50,8 @@ export function PaymentContainer({
       return;
     }
 
-    Alert.alert(
-      "Validation Successful",
-      "Your credit card information is valid."
-    );
+    // The paymet details are valid, navigate to Order Confirmation Screen
+    goToOrderConfirmationScreen();
   };
 
   const dismissKeyboard = () => {
@@ -64,7 +63,7 @@ export function PaymentContainer({
       <SafeAreaView style={styles.container}>
         <GoBackButton onPress={goBack} />
         <Text variant="h3" style={styles.headerText}>
-          Make Payment
+          Payment
         </Text>
         <View style={styles.mainContainer}>
           <Stack m={3} spacing={15}>
@@ -106,6 +105,8 @@ export function PaymentContainer({
             <Button
               title="Purchase"
               mode="contained"
+              color="#5a66ff"
+              tintColor="white"
               onPress={handleValidation}
               style={styles.button}
             />

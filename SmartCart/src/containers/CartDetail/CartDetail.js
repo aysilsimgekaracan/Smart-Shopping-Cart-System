@@ -60,12 +60,14 @@ export function CartDetailContainer({
             </View>
 
             <Button
-              title="Purchase"
+              title="Checkout"
               leading={(props) => (
                 <MaterialIcons name="payment" size={24} color="white" />
               )}
               onPress={goToPaymentScreen}
               disabled={totalAmount == 0}
+              color="#5a66ff"
+              tintColor="white"
             />
           </View>
         </View>
