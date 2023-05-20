@@ -47,7 +47,10 @@ export function CartDetailScreen(props) {
   };
 
   const goToPaymentScreen = () => {
-    navigation.navigate("Payment", { totalAmount: totalAmount });
+    navigation.navigate("Payment", {
+      totalAmount: totalAmount,
+      itemsInCart: itemsInCart,
+    });
   };
 
   return (

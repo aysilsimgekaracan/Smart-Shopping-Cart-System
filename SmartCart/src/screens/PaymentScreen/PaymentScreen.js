@@ -1,13 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { PaymentContainer } from "../../containers";
 import { useNavigation } from "@react-navigation/native";
+import { getAuth } from "firebase/auth";
+import { db } from "@Configs/firebaseConfig";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 export function PaymentScreen(props) {
   const navigation = useNavigation();
+  const auth = getAuth();
 
   const [cardNumber, setCardNumber] = useState("");
   const [expiryDate, setExpiryDate] = useState("");
   const [cvv, setCvv] = useState("");
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    if (auth.currentUser != null) {
+      setUser(auth);
+    } else {
+      setUser(null);
+    }
+  }, []);
 
   var totalAmount = [];
 
@@ -15,6 +28,14 @@ export function PaymentScreen(props) {
     totalAmount = props.route.params.totalAmount;
   } else {
     totalAmount = [];
+  }
+
+  var itemsInCart = [];
+
+  if (props.route.params && props.route.params.itemsInCart) {
+    itemsInCart = props.route.params.itemsInCart;
+  } else {
+    itemsInCart = [];
   }
 
   const isNumeric = (value) => {
@@ -53,9 +74,26 @@ export function PaymentScreen(props) {
   const goBack = () => {
     navigation.goBack();
   };
+  const handlePayment = async () => {
+    if (user != null) {
+      const userId = user.currentUser.uid;
+      try {
+        const ordersCollection = collection(db, "orders");
+
+        const orderDocRef = await addDoc(ordersCollection, {
+          createdDate: serverTimestamp(),
+          userId: userId,
+          totalAmount: totalAmount,
+        });
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+  };
 
   const goToOrderConfirmationScreen = () => {
-    navigation.navigate("OrderConfirmation");
+    handlePayment();
+    // navigation.navigate("OrderConfirmation");
   };
 
   return (
