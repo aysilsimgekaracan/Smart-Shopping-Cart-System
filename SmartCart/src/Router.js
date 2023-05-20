@@ -129,7 +129,7 @@ function Router() {
   return (
     <NavigationContainer onReady={onLayoutRootView}>
       <Stack.Navigator
-        initialRouteName={user ? "HomeStack" : "HomeStack"}
+        initialRouteName={user ? "HomeStack" : "SignIn"}
         screenOptions={{
           header: () => null,
         }}
