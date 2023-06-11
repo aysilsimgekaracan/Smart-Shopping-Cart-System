@@ -11,7 +11,7 @@ export function CartScreen() {
   const [isOpened, setIsOpened] = useState(false);
   const [response, setResponse] = useState(null);
   const isFocused = useIsFocused();
-  const SECOND_MS = 10000;
+  const SECOND_MS = 2000;
 
   useEffect(() => {
     async function getProducts() {
@@ -37,13 +37,11 @@ export function CartScreen() {
     itemsInCart.map((item) => {
       let itemClass = item.class;
       if (serializedItemsInCart.hasOwnProperty(itemClass)) {
-        serializedItemsInCart[itemClass] = serializedItemsInCart.itemClass + 1;
+        serializedItemsInCart[itemClass] += 1;
       } else {
         serializedItemsInCart[itemClass] = 1;
       }
     });
-
-    console.log(serializedItemsInCart);
 
     navigation.navigate("CartDetail", { itemsInCart: serializedItemsInCart });
   };

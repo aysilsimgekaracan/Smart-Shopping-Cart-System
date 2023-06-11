@@ -17,6 +17,8 @@ export function CartDetailScreen(props) {
     itemsInCart = [];
   }
 
+  console.log(itemsInCart);
+
   useEffect(() => {
     async function getProducts() {
       const productsCollection = collection(db, "products");
@@ -31,10 +33,9 @@ export function CartDetailScreen(props) {
 
       setProducts(productsData);
 
-      const totalAmount = productsData.reduce(
-        (total, product) => total + product.price * product.count,
-        0
-      );
+      const totalAmount = productsData
+        .reduce((total, product) => total + product.price * product.count, 0)
+        .toFixed(2);
 
       setTotalAmount(totalAmount);
     }

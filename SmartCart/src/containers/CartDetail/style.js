@@ -7,6 +7,7 @@ export default StyleSheet.create({
     paddingHorizontal: 16,
     paddingTop: 16,
   },
+
   headerText: {
     fontFamily: "robotoBold",
     paddingBottom: 20,

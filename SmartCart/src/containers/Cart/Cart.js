@@ -1,7 +1,8 @@
 import { useEffect } from "react";
-import { Text, View, ScrollView } from "react-native";
+import { Text, View, ScrollView, Alert } from "react-native";
 import { Camera } from "expo-camera";
-// import { useKeepAwake } from "expo-keep-awake";
+import { Linking } from "react-native";
+import * as Crypto from "expo-crypto";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Divider } from "@react-native-material/core";
 import { ListItem, Avatar, Button } from "@react-native-material/core";
@@ -60,7 +61,7 @@ export function CartContainer({
                 response.data.predictions.length > 0
               ) {
                 const filteredPredictions = response.data.predictions.filter(
-                  (prediction) => prediction.confidence >= 0.8
+                  (prediction) => prediction.confidence >= 0.1
                 );
 
                 response.predictions = filteredPredictions;
@@ -80,6 +81,18 @@ export function CartContainer({
     return () => clearInterval(interval);
   }, []);
 
+  const getPermission = () => {
+    console.log(permission);
+    if (permission.status == "denied") {
+      Alert.alert(
+        "You need to give permission for camera",
+        "Please Go to Settings and Turn On Camera Access"
+      );
+    } else {
+      requestPermission();
+    }
+  };
+
   if (!permission) {
     // Camera permissions are still loading
     return <View />;
@@ -89,10 +102,15 @@ export function CartContainer({
     // Camera permissions are not granted yet
     return (
       <View style={styles.container}>
-        <Text style={{ textAlign: "center" }}>
+        <Text style={styles.permissionText}>
           We need your permission to show the camera
         </Text>
-        <Button onPress={requestPermission} title="grant permission" />
+        <Button
+          onPress={() => {
+            getPermission();
+          }}
+          title="grant permission"
+        />
       </View>
     );
   }
@@ -154,12 +172,11 @@ export function CartContainer({
                   <>
                     {response.predictions.map((prediction) => {
                       let product = getProduct(prediction.class);
-                      console.log(product);
                       return (
                         <ListItem
                           leadingMode="image"
                           leading={<Avatar image={{ uri: product.image }} />}
-                          key={product.id}
+                          key={Crypto.randomUUID()}
                           title={product.name}
                           trailing={(props) => (
                             <Text

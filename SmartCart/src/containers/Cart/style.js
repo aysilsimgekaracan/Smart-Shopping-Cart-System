@@ -6,6 +6,12 @@ export default styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  permissionText: {
+    textAlign: "center",
+    fontFamily: "robotoMedium",
+    paddingBottom: 50,
+    fontSize: 24,
+  },
   camera: {
     width: "100%",
     height: "100%",
