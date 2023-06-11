@@ -10,6 +10,10 @@ import {
   SignInScreen,
   SignUpScreen,
   ProfileScreen,
+  CartDetailScreen,
+  OrderConfirmationScreen,
+  OrdersScreen,
+  OrderDetailsScreen,
 } from "./screens";
 import * as SplashScreen from "expo-splash-screen";
 import useFonts from "@Hooks/useFonts";
@@ -23,18 +27,52 @@ import { getAuth } from "firebase/auth";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-// function PaymentStack() {
-//     return (
-//     <Stack.Navigator
-//         screenOptions={{ header: () => null }}
-//         initialRouteName="Cart">
-//         <Stack.Screen name="Cart" component={CartScreen} />
-//         <Stack.Screen name="Payment" component={PaymentScreen} />
+function CartStack() {
+  return (
+    <Stack.Navigator
+      screenOptions={{ header: () => null }}
+      initialRouteName="Cart"
+    >
+      <Stack.Screen name="Cart" component={CartScreen} />
+      <Stack.Screen
+        name="CartDetail"
+        component={CartDetailScreen}
+        options={{ gestureEnabled: false }}
+      />
+      <Stack.Screen
+        name="Payment"
+        component={PaymentScreen}
+        options={{ gestureEnabled: false }}
+      />
+      <Stack.Screen
+        name="OrderConfirmation"
+        component={OrderConfirmationScreen}
+        options={{ gestureEnabled: false }}
+      />
+    </Stack.Navigator>
+  );
+}
 
-//     </Stack.Navigator>
-//     )
-
-// }
+function ProfileStack() {
+  return (
+    <Stack.Navigator
+      screenOptions={{ header: () => null }}
+      initialRouteName="ProfileStack"
+    >
+      <Stack.Screen name="ProfileStack" component={ProfileScreen} />
+      <Stack.Screen
+        name="Orders"
+        component={OrdersScreen}
+        options={{ gestureEnabled: false }}
+      />
+      <Stack.Screen
+        name="OrderDetails"
+        component={OrderDetailsScreen}
+        options={{ gestureEnabled: false }}
+      />
+    </Stack.Navigator>
+  );
+}
 
 const HomeStack = () => {
   return (
@@ -48,10 +86,11 @@ const HomeStack = () => {
         }}
       />
       <Tab.Screen
-        name="Cart"
-        component={CartScreen}
+        name="CartStack"
+        component={CartStack}
         options={{
           header: () => null,
+          tabBarLabel: "Cart",
           tabBarIcon: () => (
             <FontAwesome name="opencart" size={24} color="black" />
           ),
@@ -59,7 +98,7 @@ const HomeStack = () => {
       />
       <Tab.Screen
         name="Profile"
-        component={ProfileScreen}
+        component={ProfileStack}
         options={{
           header: () => null,
           tabBarIcon: () => (
@@ -114,7 +153,7 @@ function Router() {
   return (
     <NavigationContainer onReady={onLayoutRootView}>
       <Stack.Navigator
-        initialRouteName={user ? "HomeStack" : "HomeStack"}
+        initialRouteName={user ? "HomeStack" : "SignIn"}
         screenOptions={{
           header: () => null,
         }}
@@ -134,12 +173,6 @@ function Router() {
         <Stack.Screen
           name="HomeStack"
           component={HomeStack}
-          options={{ gestureEnabled: false }}
-        />
-
-        <Stack.Screen
-          name="Payment"
-          component={PaymentScreen}
           options={{ gestureEnabled: false }}
         />
       </Stack.Navigator>

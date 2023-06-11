@@ -1,39 +1,62 @@
+import { useState, useEffect } from "react";
 import { CartContainer } from "../../containers";
 import { useNavigation } from "@react-navigation/native";
-import { useEffect, useState } from "react";
-import { MobileModel, Module, torch } from "react-native-pytorch-core";
+import { db } from "@Configs/firebaseConfig";
+import { collection, getDocs } from "firebase/firestore";
+import { useIsFocused } from "@react-navigation/native";
 
 export function CartScreen() {
   const navigation = useNavigation();
-  const [isReady, setIsReady] = useState(false);
-  const [model, setModel] = useState(null);
-
-  url =
-    "https://github.com/aysilsimgekaracan/Smart-Shopping-Cart-System/blob/mobile-ios/best.torchscript.ptl";
+  const [products, setProducts] = useState([]);
+  const [isOpened, setIsOpened] = useState(false);
+  const [response, setResponse] = useState(null);
+  const isFocused = useIsFocused();
+  const SECOND_MS = 2000;
 
   useEffect(() => {
-    setIsReady(false);
-    async function loadModel() {
-      console.log("Downloading model from", url);
-      const filePath = await MobileModel.download(url);
-      console.log("Model downloaded to", filePath);
-      const model = await torch.jit._loadForMobile(filePath);
-      console.log("Model loaded for lite interpreter");
-      setModel(model);
-      setIsReady(true);
-    }
-    loadModel();
-  }, [setIsReady, setModel, url]);
+    async function getProducts() {
+      const productsCollection = collection(db, "products");
+      const querySnapshot = await getDocs(productsCollection);
+      const productsData = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
 
-  const goToPaymentScreen = () => {
-    navigation.navigate("Payment");
+      setProducts(productsData);
+    }
+
+    getProducts();
+  }, []);
+
+  const getProduct = (className) => {
+    return products.find((item) => item.id === className);
+  };
+
+  const goToCartDetailScreen = (itemsInCart) => {
+    const serializedItemsInCart = {};
+    itemsInCart.map((item) => {
+      let itemClass = item.class;
+      if (serializedItemsInCart.hasOwnProperty(itemClass)) {
+        serializedItemsInCart[itemClass] += 1;
+      } else {
+        serializedItemsInCart[itemClass] = 1;
+      }
+    });
+
+    navigation.navigate("CartDetail", { itemsInCart: serializedItemsInCart });
   };
 
   return (
     <CartContainer
-      goToPaymentScreen={goToPaymentScreen}
-      isReady={isReady}
-      model={model}
+      goToCartDetailScreen={goToCartDetailScreen}
+      products={products}
+      getProduct={getProduct}
+      isOpened={isOpened}
+      setIsOpened={setIsOpened}
+      response={response}
+      setResponse={setResponse}
+      isFocused={isFocused}
+      SECOND_MS={SECOND_MS}
     />
   );
 }
